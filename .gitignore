@@ -216,3 +216,25 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local Data & Media Storage
+data/
+*.mp4
+*.avi
+*.jpg
+*.png
+
+# Vector DBs & Local Storage
+chroma_db/
+*.db
+*.sqlite3
+
+# Large Model Weights & Embeddings
+models/
+*.pt
+*.onnx
+*.safetensors
+*.bin
+
+# Environment / Secrets
+.env
