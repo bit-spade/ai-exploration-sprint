@@ -1,0 +1,4 @@
+opencv-python-headless
+mediapipe
+numpy
+streamlit
