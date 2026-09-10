@@ -37,13 +37,13 @@ class PushUpCounter:
         self.stage: str | None = None  # "up" or "down"
         self.feedback = "Get into plank position"
 
-    def update(self, landmarks: list[dict]) -> tuple[int, str, float | None, float | None]:
+    def update(self, landmarks: list[dict]) -> tuple[int, str, float | None, float | None, float | None]:
         """
         Updates rep count and body posture from keypoints.
-        Returns: (rep_count, feedback_msg, elbow_angle, hip_angle)
+        Returns: (rep_count, feedback_msg, elbow_angle, hip_angle, knee_angle)
         """
         if not landmarks or len(landmarks) < 17:
-            return self.counter, "No subject detected", None, None
+            return self.counter, "No subject detected", None, None, None
 
         # Pick whichever side faces the camera better
         # Left side: shoulder=5, elbow=7, wrist=9, hip=11, ankle=15
@@ -52,14 +52,14 @@ class PushUpCounter:
         right_arm_conf = (landmarks[6]['conf'] + landmarks[8]['conf'] + landmarks[10]['conf']) / 3.0
 
         if left_arm_conf >= right_arm_conf:
-            s_idx, e_idx, w_idx, h_idx, a_idx = 5, 7, 9, 11, 15
+            s_idx, e_idx, w_idx, h_idx, k_idx, a_idx = 5, 7, 9, 11, 13, 15
         else:
-            s_idx, e_idx, w_idx, h_idx, a_idx = 6, 8, 10, 12, 16
+            s_idx, e_idx, w_idx, h_idx, k_idx, a_idx = 6, 8, 10, 12, 14, 16
 
         # Check visibility for the arm joints
         for idx in (s_idx, e_idx, w_idx):
             if landmarks[idx]['conf'] < self.min_confidence:
-                return self.counter, "Keep arm visible", None, None
+                return self.counter, "Keep arm visible", None, None, None
 
         shoulder = (landmarks[s_idx]['x'], landmarks[s_idx]['y'])
         elbow = (landmarks[e_idx]['x'], landmarks[e_idx]['y'])
@@ -79,10 +79,34 @@ class PushUpCounter:
             if hip_angle < 150.0:
                 is_body_straight = False
 
+        # Knee check: calculate knee angle if hip & knee & ankle are visible
+        knee_angle = None
+        if (
+            landmarks[h_idx]['conf'] >= self.min_confidence
+            and landmarks[k_idx]['conf'] >= self.min_confidence
+            and landmarks[a_idx]['conf'] >= self.min_confidence
+        ):
+            hip = (landmarks[h_idx]['x'], landmarks[h_idx]['y'])
+            knee = (landmarks[k_idx]['x'], landmarks[k_idx]['y'])
+            ankle = (landmarks[a_idx]['x'], landmarks[a_idx]['y'])
+            knee_angle = calculate_angle(hip, knee, ankle)
+
+            if knee_angle < 150.0:
+                is_body_straight = False
+
+
         # State machine for reps
+
+        # Check body alignment issues:
+        hip_sagging = hip_angle is not None and hip_angle < 150.0
+        knees_bent = knee_angle is not None and knee_angle < 150.0
+        is_body_straight = not (hip_sagging or knees_bent)
+
         if elbow_angle <= self.down_threshold:
-            if not is_body_straight:
-                self.feedback = "Straighten your back!"
+            if hip_sagging:
+                self.feedback = "Keep hips in line!"
+            elif knees_bent:
+                self.feedback = "Lock your knees / Don't bend legs!"
             else:
                 self.feedback = "Push up!"
             self.stage = "down"
@@ -99,4 +123,4 @@ class PushUpCounter:
                 self.stage = "up"
                 self.feedback = "Lower your chest"
 
-        return self.counter, self.feedback, elbow_angle, hip_angle
+        return self.counter, self.feedback, elbow_angle, hip_angle, knee_angle
