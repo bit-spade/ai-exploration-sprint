@@ -13,6 +13,7 @@ def draw_hud(
     feedback: str,
     elbow_angle: float | None,
     hip_angle: float | None,
+    knee_angle: float | None,
     fps: float
 ) -> None:
     """Draws metrics and form feedback on top of the webcam feed."""
@@ -34,7 +35,7 @@ def draw_hud(
     cv2.putText(frame, f"{fps:.1f} FPS", (135, 45), cv2.FONT_HERSHEY_SIMPLEX, 0.5, fps_color, 1, cv2.LINE_AA)
 
     # --- Top Right: Angles & Form Feedback ---
-    info_w, info_h = 320, 130
+    info_w, info_h = 320, 145
     x_start = w - info_w - 15
     cv2.rectangle(overlay, (x_start, 15), (x_start + info_w, 15 + info_h), (25, 25, 25), -1)
     cv2.addWeighted(overlay, 0.7, frame, 0.3, 0, frame)
@@ -57,8 +58,13 @@ def draw_hud(
     hip_color = (0, 220, 100) if (hip_angle and hip_angle >= 150) else (0, 140, 255)
     cv2.putText(frame, f"Hip / Back: {hip_str}", (x_start + 15, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.55, hip_color, 1, cv2.LINE_AA)
 
+    # Knee angle (leg alignment check)
+    knee_str = f"{int(knee_angle)} deg" if knee_angle is not None else "--"
+    knee_color = (0, 220, 100) if (knee_angle and knee_angle >= 150) else (0, 140, 255)
+    cv2.putText(frame, f"Knee: {knee_str}", (x_start + 15, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.55, knee_color, 1, cv2.LINE_AA)
+
     # Feedback message
-    cv2.putText(frame, feedback, (x_start + 15, 115), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 230, 255), 1, cv2.LINE_AA)
+    cv2.putText(frame, feedback, (x_start + 15, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 230, 255), 1, cv2.LINE_AA)
 
 
 def run_pipeline(camera_index: int = 0) -> None:
@@ -100,10 +106,10 @@ def run_pipeline(camera_index: int = 0) -> None:
 
             rep_count = counter.counter
             feedback = "No subject detected"
-            elbow_angle, hip_angle = None, None
+            elbow_angle, hip_angle, knee_angle = None, None, None
 
             if landmarks:
-                rep_count, feedback, elbow_angle, hip_angle = counter.update(landmarks[0])
+                rep_count, feedback, elbow_angle, hip_angle, knee_angle = counter.update(landmarks[0])
 
             # FPS calculation
             curr_time = time.perf_counter()
@@ -113,7 +119,7 @@ def run_pipeline(camera_index: int = 0) -> None:
                 fps_history.append(1.0 / dt)
             avg_fps = sum(fps_history) / len(fps_history) if fps_history else 0.0
 
-            draw_hud(annotated_frame, rep_count, feedback, elbow_angle, hip_angle, avg_fps)
+            draw_hud(annotated_frame, rep_count, feedback, elbow_angle, hip_angle, knee_angle, avg_fps)
 
             cv2.imshow("Push-Up Tracker", annotated_frame)
             key = cv2.waitKey(1) & 0xFF
