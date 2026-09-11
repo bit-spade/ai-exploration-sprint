@@ -46,8 +46,6 @@ class PushUpCounter:
             return self.counter, "No subject detected", None, None, None
 
         # Pick whichever side faces the camera better
-        # Left side: shoulder=5, elbow=7, wrist=9, hip=11, ankle=15
-        # Right side: shoulder=6, elbow=8, wrist=10, hip=12, ankle=16
         left_arm_conf = (landmarks[5]['conf'] + landmarks[7]['conf'] + landmarks[9]['conf']) / 3.0
         right_arm_conf = (landmarks[6]['conf'] + landmarks[8]['conf'] + landmarks[10]['conf']) / 3.0
 
@@ -56,7 +54,7 @@ class PushUpCounter:
         else:
             s_idx, e_idx, w_idx, h_idx, k_idx, a_idx = 6, 8, 10, 12, 14, 16
 
-        # Check visibility for the arm joints
+        # Check visibility for arm joints
         for idx in (s_idx, e_idx, w_idx):
             if landmarks[idx]['conf'] < self.min_confidence:
                 return self.counter, "Keep arm visible", None, None, None
@@ -67,60 +65,65 @@ class PushUpCounter:
 
         elbow_angle = calculate_angle(shoulder, elbow, wrist)
 
-        # Whole-body check: calculate hip angle if hip & ankle are visible
+        # Hands must be planted down on the floor (lower half of screen and below shoulders)
+        hands_on_floor = wrist[1] > 340 and wrist[1] >= shoulder[1] - 10
+        if not hands_on_floor:
+            return self.counter, "Place hands on the floor", elbow_angle, None, None
+
+        # Check lower body keypoints if in frame
+        hip_visible = landmarks[h_idx]['conf'] >= 0.35
+        knee_visible = landmarks[k_idx]['conf'] >= 0.35
+        ankle_visible = landmarks[a_idx]['conf'] >= 0.35
+
         hip_angle = None
-        is_body_straight = True
-        if landmarks[h_idx]['conf'] >= self.min_confidence and landmarks[a_idx]['conf'] >= self.min_confidence:
-            hip = (landmarks[h_idx]['x'], landmarks[h_idx]['y'])
-            ankle = (landmarks[a_idx]['x'], landmarks[a_idx]['y'])
-            hip_angle = calculate_angle(shoulder, hip, ankle)
-
-            # Planks/push-ups usually want hip angle roughly between 150 and 180 deg
-            if hip_angle < 150.0:
-                is_body_straight = False
-
-        # Knee check: calculate knee angle if hip & knee & ankle are visible
         knee_angle = None
-        if (
-            landmarks[h_idx]['conf'] >= self.min_confidence
-            and landmarks[k_idx]['conf'] >= self.min_confidence
-            and landmarks[a_idx]['conf'] >= self.min_confidence
-        ):
-            hip = (landmarks[h_idx]['x'], landmarks[h_idx]['y'])
+        knees_on_floor = False
+
+        if knee_visible:
             knee = (landmarks[k_idx]['x'], landmarks[k_idx]['y'])
-            ankle = (landmarks[a_idx]['x'], landmarks[a_idx]['y'])
-            knee_angle = calculate_angle(hip, knee, ankle)
 
-            if knee_angle < 150.0:
-                is_body_straight = False
+            # If knees are near wrist level on screen, knees are touching the floor
+            if abs(knee[1] - wrist[1]) < 80:
+                knees_on_floor = True
 
+            # Measure real hip angle (shoulder - hip - knee)
+            if hip_visible:
+                hip = (landmarks[h_idx]['x'], landmarks[h_idx]['y'])
+                hip_angle = calculate_angle(shoulder, hip, knee)
 
-        # State machine for reps
+            # Measure real knee angle (hip - knee - ankle) if ankle is visible
+            if ankle_visible and hip_visible:
+                ankle = (landmarks[a_idx]['x'], landmarks[a_idx]['y'])
+                knee_angle = calculate_angle(hip, knee, ankle)
+                # In a knee push-up, feet are lifted in the air above the knees
+                if ankle[1] < knee[1] - 20:
+                    knees_on_floor = True
 
-        # Check body alignment issues:
-        hip_sagging = hip_angle is not None and hip_angle < 150.0
-        knees_bent = knee_angle is not None and knee_angle < 150.0
-        is_body_straight = not (hip_sagging or knees_bent)
-
+        # Rep counting state machine
         if elbow_angle <= self.down_threshold:
-            if hip_sagging:
-                self.feedback = "Keep hips in line!"
-            elif knees_bent:
-                self.feedback = "Lock your knees / Don't bend legs!"
+            if knees_on_floor:
+                self.feedback = "Off your knees - full plank!"
             else:
                 self.feedback = "Push up!"
             self.stage = "down"
 
         elif elbow_angle >= self.up_threshold:
             if self.stage == "down":
-                if is_body_straight:
+                if not knees_on_floor:
                     self.counter += 1
                     self.feedback = "Good rep!"
                 else:
-                    self.feedback = "Form off - keep hips aligned"
+                    self.feedback = "Form off - on your knees"
                 self.stage = "up"
+
+            elif self.stage == "up":
+                if knees_on_floor:
+                    self.feedback = "Lift knees off floor"
+                else:
+                    self.feedback = "Ready - lower chest"
+
             elif self.stage is None:
                 self.stage = "up"
-                self.feedback = "Lower your chest"
+                self.feedback = "Ready - lower chest"
 
         return self.counter, self.feedback, elbow_angle, hip_angle, knee_angle
