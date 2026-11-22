@@ -1,0 +1,102 @@
+[
+  {
+    "question": "What is progressive overload and why is it important for muscle growth?",
+    "ground_truth": "Progressive overload means gradually increasing training stress (weight, reps, or volume) over time. It is essential for hypertrophy because muscles adapt to current stimulus; without increasing the demand, growth plateaus. Small, consistent increases in load or volume force the muscle fibres to repair and grow larger.",
+    "relevant_pillar": "exercise_library"
+  },
+  {
+    "question": "Which muscles does the barbell back squat primarily target?",
+    "ground_truth": "The barbell back squat primarily targets the quadriceps (rectus femoris, vastus lateralis, vastus medialis, vastus intermedius), gluteus maximus, and hamstrings. Secondary muscles include the erector spinae, adductors, and core stabilisers.",
+    "relevant_pillar": "exercise_library"
+  },
+  {
+    "question": "What is the difference between compound and isolation exercises?",
+    "ground_truth": "Compound exercises involve multiple joints and muscle groups simultaneously (e.g., squat, deadlift, bench press) and allow heavier loads and greater hormonal response. Isolation exercises target a single joint and muscle (e.g., bicep curl, leg extension) and are useful for correcting imbalances or adding volume to a specific muscle.",
+    "relevant_pillar": "exercise_library"
+  },
+  {
+    "question": "How many sets and reps per week are recommended for building muscle hypertrophy?",
+    "ground_truth": "Most evidence-based recommendations suggest 10–20 working sets per muscle group per week for hypertrophy, with rep ranges of 6–20 repetitions per set taken close to failure. Volume should be distributed across at least 2 sessions per week for optimal muscle protein synthesis.",
+    "relevant_pillar": "exercise_library"
+  },
+  {
+    "question": "What are the main benefits of cardiovascular exercise according to sports science?",
+    "ground_truth": "Regular cardiovascular exercise improves heart and lung efficiency, lowers resting heart rate and blood pressure, increases VO2 max, reduces LDL cholesterol, helps maintain healthy body weight, and reduces risk of type 2 diabetes, cardiovascular disease, and certain cancers. It also improves mood and reduces anxiety through endorphin release.",
+    "relevant_pillar": "exercise_library"
+  },
+  {
+    "question": "How much physical activity does the WHO recommend for adults per week?",
+    "ground_truth": "The World Health Organization recommends that adults aged 18–64 do at least 150–300 minutes of moderate-intensity aerobic activity, or 75–150 minutes of vigorous-intensity aerobic activity, or an equivalent combination per week. Muscle-strengthening activities should be done at moderate or greater intensity involving all major muscle groups on 2 or more days per week.",
+    "relevant_pillar": "health_issues"
+  },
+  {
+    "question": "What exercises are safe and recommended for people with chronic lower back pain?",
+    "ground_truth": "For chronic lower back pain, low-impact activities such as walking, swimming, and cycling are recommended to maintain mobility without excessive spinal loading. Core stabilisation exercises (bird-dog, dead bug, plank) and gentle stretching of the hip flexors and hamstrings help reduce pain. Strengthening the glutes and erector spinae provides better spinal support. High-impact or heavy axial-loading exercises should be avoided during flare-ups.",
+    "relevant_pillar": "health_issues"
+  },
+  {
+    "question": "How should someone with hypertension modify their exercise routine?",
+    "ground_truth": "People with hypertension should prioritise aerobic exercise (moderate intensity, 150+ minutes/week) as it lowers resting blood pressure. Heavy isometric exercises and Valsalva manoeuvre (breath-holding under load) should be limited as they cause acute spikes in blood pressure. Resistance training is safe at moderate intensity with controlled breathing. Warm-up and cool-down periods are especially important to avoid abrupt blood pressure changes.",
+    "relevant_pillar": "health_issues"
+  },
+  {
+    "question": "What are effective exercise strategies for managing type 2 diabetes?",
+    "ground_truth": "Both aerobic exercise and resistance training improve insulin sensitivity and glucose uptake in type 2 diabetes. Aerobic sessions of 30 minutes on most days and 2–3 resistance training sessions per week are recommended. Exercising after meals can help blunt postprandial blood glucose spikes. Blood glucose should be monitored before and after exercise, and carbohydrate intake adjusted to prevent hypoglycaemia.",
+    "relevant_pillar": "health_issues"
+  },
+  {
+    "question": "What physical activity is recommended for people with osteoarthritis of the knee?",
+    "ground_truth": "Low-impact aerobic exercise (swimming, cycling, water aerobics) reduces pain and improves function in knee osteoarthritis. Quadriceps strengthening exercises decrease load on the joint and reduce pain. Flexibility and range-of-motion work helps maintain joint function. High-impact activities like running on hard surfaces should be minimised during symptomatic periods.",
+    "relevant_pillar": "health_issues"
+  },
+  {
+    "question": "What effect does obesity have on exercise capacity and which exercises are most beneficial?",
+    "ground_truth": "Obesity reduces cardiorespiratory fitness and places greater mechanical stress on joints, increasing injury risk. Low-impact aerobic activities such as swimming, cycling, and elliptical training provide cardiovascular benefit while sparing joints. Resistance training preserves or increases lean muscle mass, which raises resting metabolic rate. A combination of aerobic and resistance training produces greater fat loss and health improvements than either alone.",
+    "relevant_pillar": "health_issues"
+  },
+  {
+    "question": "How much protein should an athlete consume daily to support muscle recovery and growth?",
+    "ground_truth": "Evidence-based guidelines recommend 1.6–2.2 g of protein per kilogram of body weight per day for athletes engaged in regular resistance training. Protein should be spread across 3–5 meals of 20–40 g each to maximise muscle protein synthesis. Following intense exercise, consuming 20–40 g of high-quality protein (whey, eggs, chicken, or equivalent plant sources) within 2 hours supports recovery.",
+    "relevant_pillar": "nutrition"
+  },
+  {
+    "question": "What are the best dietary sources of complex carbohydrates for sustained energy during training?",
+    "ground_truth": "The best complex carbohydrate sources for athletes include oats, brown rice, quinoa, sweet potatoes, whole-grain bread and pasta, legumes, and fruits. These foods provide sustained energy due to slower digestion and lower glycaemic index compared to refined carbohydrates, helping maintain blood glucose and muscle glycogen during prolonged training sessions.",
+    "relevant_pillar": "nutrition"
+  },
+  {
+    "question": "How does hydration affect athletic performance and what is the recommended fluid intake during exercise?",
+    "ground_truth": "Even mild dehydration (1–2% body weight loss as fluid) impairs endurance, strength, and cognitive function. Athletes should drink approximately 500 mL of fluid 2 hours before exercise and 150–250 mL every 15–20 minutes during exercise. Post-exercise rehydration should replace 125–150% of fluid lost. Electrolytes (sodium, potassium) become important during sessions longer than 60–90 minutes.",
+    "relevant_pillar": "nutrition"
+  },
+  {
+    "question": "What role do healthy fats play in a fitness-focused diet?",
+    "ground_truth": "Dietary fats support hormone production (including testosterone and oestrogen, which affect muscle building and recovery), absorb fat-soluble vitamins (A, D, E, K), provide a dense energy source for lower-intensity activity, and support cell membrane integrity. Sources such as avocado, olive oil, nuts, seeds, and fatty fish (omega-3 EPA/DHA) reduce inflammation, which aids recovery from intense training.",
+    "relevant_pillar": "nutrition"
+  },
+  {
+    "question": "What is the glycaemic index and how should athletes use it to time carbohydrate intake?",
+    "ground_truth": "The glycaemic index (GI) ranks carbohydrate foods by how quickly they raise blood glucose. High-GI foods (white bread, sports drinks, bananas) are rapidly digested and are beneficial immediately before or during exercise for quick energy, and after exercise to rapidly replenish muscle glycogen. Low-GI foods (oats, legumes, most vegetables) sustain energy levels during the hours preceding training and throughout daily meals.",
+    "relevant_pillar": "nutrition"
+  },
+  {
+    "question": "Should someone with sedentary lifestyle start with light or moderate exercise intensity, and why?",
+    "ground_truth": "Sedentary individuals should begin with light to moderate intensity exercise to reduce injury risk and allow cardiovascular and musculoskeletal adaptation. Starting too intensely can cause delayed onset muscle soreness, overuse injuries, or cardiovascular strain. A gradual progression of 10% or less increase in weekly volume allows the body to adapt safely and improves long-term adherence.",
+    "relevant_pillar": "health_issues"
+  },
+  {
+    "question": "What are the main macro-nutritional strategies for fat loss while preserving muscle mass?",
+    "ground_truth": "For fat loss while preserving muscle, a moderate caloric deficit of 300–500 kcal/day is recommended. Protein intake should be maintained at 1.8–2.4 g/kg body weight to protect lean mass. Carbohydrates should be sufficient to fuel training sessions. Dietary fat should not fall below 20% of total calories to preserve hormonal function. Resistance training is critical to prevent muscle catabolism during a caloric deficit.",
+    "relevant_pillar": "nutrition"
+  },
+  {
+    "question": "Which stretching and mobility exercises help prevent shoulder injuries in overhead athletes?",
+    "ground_truth": "Posterior shoulder capsule stretches (cross-body and sleeper stretch) improve internal rotation deficit common in overhead athletes. Strengthening the rotator cuff (external rotation exercises with bands or dumbbells), lower trapezius, and serratus anterior improves scapular stability and reduces impingement risk. Thoracic spine mobility drills help overhead reach. These exercises form the basis of injury prevention programmes for swimmers, tennis players, and throwers.",
+    "relevant_pillar": "health_issues"
+  },
+  {
+    "question": "What pre-workout meal should someone eat 1–2 hours before an intense strength training session?",
+    "ground_truth": "An optimal pre-workout meal 1–2 hours before strength training should contain moderate carbohydrates (40–60 g) for muscle glycogen top-up and moderate protein (20–30 g) to begin protein synthesis. Examples include oats with Greek yogurt and banana, or chicken with rice and vegetables. Fat and fibre should be kept relatively low to avoid gastrointestinal discomfort during exercise. Hydration of 400–600 mL water is also recommended.",
+    "relevant_pillar": "nutrition"
+  }
+]

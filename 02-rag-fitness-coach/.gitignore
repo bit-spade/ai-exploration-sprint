@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+*.whl
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+*.env.local
+
+# Data — raw PDFs and processed chunks (large files)
+data/raw/
+data/processed/
+
+# Qdrant local storage
+.qdrant_storage/
+
+# Ollama (if run locally outside Docker)
+.ollama/
+
+# Jupyter / notebooks
+.ipynb_checkpoints/
+*.ipynb_meta
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# macOS
+.DS_Store
+
+# Evaluation results (generated, not committed)
+evaluation/results/*.csv
+evaluation/results/*.json
+
+# Model cache (sentence-transformers, HuggingFace)
+~/.cache/huggingface/
+
+data/

@@ -1,0 +1,18 @@
+[project]
+name = "rag-fitness-coach"
+version = "0.1.0"
+description = "RAG-powered fitness coaching assistant grounded in sports science documents"
+requires-python = ">=3.11"
+readme = "README.md"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
